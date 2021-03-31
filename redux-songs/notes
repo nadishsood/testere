@@ -1,0 +1,61 @@
+146. 
+see the photo in 146 and read this:
+
+React-Redux creates Provider and Connect - we create instances of them and pass props to them. 
+We combined reducers to form the redux store(in redux tutorial). 
+The store contains all the reducers and the state of the application. 
+
+We are going to take that store and pass it as a prop to Provider. 
+Provider is at the very top of our component heirarchy, so technically app is inside provider. 
+Provider provides all the information to other components in the app.                                                             
+
+SongList reducer is going to produce the list of songs, and SongList component needs that.
+Therefore we are going to wrap songList with Connect(tag/component) which communicates
+with provider through a `context system` which allows parent and child to communicate even with other components in between
+
+When Connect renders SongList, it asks provider to send it a list of songs everytime the 
+songList changes. Connect takes it and passes it as a prop to the songList component. 
+
+Action Creators(like select song) are not stored in the store. We take them and pass them to 
+the store.dispatch function which in turn passes it to the reducers for possible change in state. 
+
+So connect not only watches out for possible change in list of songs from provider, 
+but also we tell it that we want to be able to call the select song action creator from 
+songList. So connect makes sure that the action creator is passed down to our songList component
+as a prop. 
+
+
+So entire flow:
+create the provider, pass in a reference to redux store.
+anytime we have a component that needs to communicate with the redux store in any way, 
+we wrap it in a connect component/function/tag and configure the connect by telling it what
+pieces of state we want out of the store and what action creator we want associated with the component. 
+
+The connect function then does the magic and makes sure that the state and action Creators
+show up inside our component as props. 
+
+
+//see photo for 147. 
+//app structure:-
+
+/src
+    /actions
+    /components
+    /reducers
+    /index.js
+
+in app.js: import actions from '../actions/index.js', no need to add index.js because webpack will handle that. 
+
+148. named vs default exports: 
+    named: we have to put {} inside of import.
+    default: no need for the {} braces.
+
+155.
+In songslist component, we hook our action creator with the connect function as opposed to just 
+calling it directly in the component. See Photo 155. Redux is not magic. Action creator is just a 
+simple function, there's nothing special about it such that redux will pick it and dispatch it
+to all reducers, therefore it is important to connect it to redux using connect. It will be dispatched, 
+it may change state and so on. 
+
+when we pass our aciton creator to our connect function, it assigns it to a new function and when thatfunciton is called, it returns an action
+and the action is automatically dispatched to all the reducers. 
